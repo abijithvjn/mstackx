@@ -7,7 +7,8 @@ module "jenkins" {
   key_pair_name = "${var.key_pair_name}"
   ami           = "${var.ubuntu_ami}"
   instance_type = "${lookup(var.instance_type,"jenkins")}"
-  subnet_id       = "${element(module.main_vpc.public_subnet_id,0)} "
+  subnet_id       = "${element(module.main_vpc.public_subnet_id,0)}"
+  associate_public_ip_address = "true"
 
   volume_size     = "100"
   security_groups = "${aws_security_group.main_public_sg.id}"

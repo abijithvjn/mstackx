@@ -14,3 +14,4 @@ variable "security_groups" {}
 variable "asg_subnets" {}
 variable "user_data_template" {}
 variable "associate_public_ip_address" { default = "false" }
+variable "iam_instance_profile" { default = "ec2-default-profile"}

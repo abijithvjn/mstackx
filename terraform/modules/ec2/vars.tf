@@ -15,3 +15,4 @@ variable "associate_public_ip_address" { default = "false" }
 
 variable "volume_type" { default = "gp2" }
 variable "volume_size" { default = "32" }
+variable "iam_instance_profile" { default = "ec2-default-profile"}

@@ -17,7 +17,7 @@ variable "instance_type" {
 
   default = {
         bastion        = "t2.micro"
-        elasticsearch  = "t2.micro"
+        elasticsearch  = "t2.large"
         kibana         = "t2.micro"
         jenkins        = "t2.micro"
         kube-master    = "t2.medium"

@@ -14,6 +14,7 @@ resource "aws_launch_configuration" "aws_launch_config" {
   image_id             = "${var.ami}"
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_pair_name}"
+  iam_instance_profile = "${var.iam_instance_profile}"
   ebs_optimized        = "${var.ebs_optimized}"
 
 
