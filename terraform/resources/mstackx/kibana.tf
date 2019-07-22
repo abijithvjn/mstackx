@@ -8,6 +8,7 @@ module "kibana" {
   ami           = "${var.ubuntu_ami}"
   instance_type = "${lookup(var.instance_type,"kibana")}"
   subnet_id       = "${element(module.main_vpc.public_subnet_id,0)}"
+  iam_instance_profile = "${aws_iam_instance_profile.ec2-default-profile.name}"
   associate_public_ip_address = "true"
 
   volume_size     = "100"

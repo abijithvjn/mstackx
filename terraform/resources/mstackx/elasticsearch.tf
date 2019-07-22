@@ -7,6 +7,7 @@ module "elasticsearch" {
   key_pair_name = "${var.key_pair_name}"
   ami           = "${var.ubuntu_ami}"
   instance_type = "${lookup(var.instance_type,"elasticsearch")}"
+  iam_instance_profile = "${aws_iam_instance_profile.ec2-default-profile.name}"
   subnet_id       = "${element(module.main_vpc.private_subnet_id,0)}"
   volume_size     = "100"
   security_groups = "${aws_security_group.main_internal_sg.id}"

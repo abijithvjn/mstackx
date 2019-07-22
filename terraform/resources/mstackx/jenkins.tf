@@ -9,7 +9,7 @@ module "jenkins" {
   instance_type = "${lookup(var.instance_type,"jenkins")}"
   subnet_id       = "${element(module.main_vpc.public_subnet_id,0)}"
   associate_public_ip_address = "true"
-
+  iam_instance_profile = "${aws_iam_instance_profile.ec2-default-profile.name}"
   volume_size     = "100"
   security_groups = "${aws_security_group.main_public_sg.id}"
 }

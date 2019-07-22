@@ -6,6 +6,7 @@ resource "aws_instance" "app_ec2" {
   disable_api_termination     = "${var.disable_api_termination}"
   key_name                    = "${var.key_pair_name}"
   monitoring                  = "${var.monitoring}"
+  iam_instance_profile = "${var.iam_instance_profile}"
   vpc_security_group_ids      = ["${split(",",var.security_groups)}"]
   subnet_id                   = "${element(split(",", var.subnet_id), count.index)}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
