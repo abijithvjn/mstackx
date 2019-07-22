@@ -54,6 +54,13 @@ resource "aws_security_group" "main_public_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["192.168.0.0/16"]
+  }
+
 
   egress {
     from_port       = 0

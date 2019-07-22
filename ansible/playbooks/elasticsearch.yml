@@ -14,4 +14,4 @@
     - "./../vars/main.yml"
 
   roles:
-  - elasticseach
+  - elasticsearch
