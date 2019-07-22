@@ -1,0 +1,5 @@
+---
+java_version: 1.8.0
+java_packages: ["openjdk-8-jdk"]
+
+java_home: "/usr/lib/jvm/java-{{ java_version }}-openjdk-amd64/jre"
