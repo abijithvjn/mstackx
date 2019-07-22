@@ -1,2 +1,6 @@
 [bastion]
 bastion_host ansible_host=3.222.95.184 ansible_user=ubuntu
+[elasticsearch_nodes]
+elasticseach ansible_host=192.168.1.64 ansible_user=ubuntu
+[kibana_node]
+kibana ansible_host=192.168.3.164 ansible_user=ubuntu

@@ -1,0 +1,83 @@
+---
+- name: create data dir if not already present
+  file:
+    path: /data/elasticsearch/logs
+    state: directory
+    mode: 0755
+    recurse: yes
+  tags: elasticsearch-setup
+
+- name: Debian - Install apt-transport-https to support https APT downloads
+  become: yes
+  apt:
+    name: apt-transport-https
+    state: present
+  tags: elasticsearch-setup
+
+- name: Import Elasticseach PGP key
+  apt_key:
+    url: "{{ es_apt_key }}"
+    state: present
+  tags: elasticsearch-setup
+
+- name: Add Elasticsearch repository
+  apt_repository:
+    repo: "{{ es_apt_url }}"
+    state: present
+    filename: elasticsearch-6.x
+  tags: elasticsearch-setup
+
+- name: Ensure elasticsearch is installed
+  apt:
+    name: '{{ es_package_name }}{% if es_version is defined and es_version != "" %}={{ es_version }}{% endif %}'
+    state: present
+    update_cache: yes
+  tags: elasticsearch-setup
+
+- name: Copy elasticsearch.yml config file to /etc/elasticsearch
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+    owner: "{{ es_user }}"
+    group: "{{ es_group }}"
+    mode: 0644
+    backup: yes
+  register: elasticsearch_config
+  tags:
+    - elasticsearch-config
+
+- name: Copy jvm.options file to /etc/elasticsearch
+  template:
+    src: jvm.options.j2
+    dest: /etc/elasticsearch/jvm.options
+    owner: "{{ es_user }}"
+    group: "{{ es_group }}"
+    mode: 0644
+    backup: yes
+  register: jvm_config
+  tags:
+    - elasticsearch-config
+- name: Change folder ownership after ES installation
+  file:
+    path: "{{ item }}"
+    owner: "{{ es_user }}"
+    group: "{{ es_group }}"
+    mode: 0744
+    recurse: yes
+  with_items:
+    - "{{ es_data_dir }}"
+    - "{{ es_logs_dir }}"
+  tags: elasticsearch-config
+
+- name: Reload systemd
+  systemd:
+    daemon-reload: yes
+  tags: [elasticsearch-setup]
+
+- name: Restart Elasticsearch service
+  service:
+    name: elasticsearch
+    state: restarted
+    enabled: yes
+  when: elasticsearch_config is changed or jvm_config is changed
+  tags: elasticsearch-config

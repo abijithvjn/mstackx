@@ -1,0 +1,14 @@
+cluster.name: {{ env }}-{{ es_cluster_name }}
+discovery.zen.minimum_master_nodes: {{ minimum_master_node | default('1') }}
+http.port: {{ es_port }}
+network.host: 0.0.0.0
+path.data: {{ es_data_dir }}
+path.logs: {{ es_logs_dir }}
+
+transport.host: 0.0.0.0
+transport.tcp.port: {{ es_transport_port }}
+xpack.security.enabled: false
+
+node.name: {{ ansible_default_ipv4.address }}
+node.master: {{ master_node | default('true') }}
+node.data: {{ data_node | default('true') }}

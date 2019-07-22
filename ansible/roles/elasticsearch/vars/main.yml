@@ -1,0 +1,23 @@
+---
+# ES package url from https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.1.deb (substitute version as required)
+## ES vars
+es_user: elasticsearch
+es_group: elasticsearch
+es_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+es_apt_url: "deb https://artifacts.elastic.co/packages/6.x/apt stable main"
+es_package_name: elasticsearch
+es_version: 6.5.3
+# port on which ES service will be running
+es_port: 9200
+es_data_dir: "/data/elasticsearch"
+es_logs_dir: "/data/elasticsearch/logs"
+es_transport_port: 9300
+es_memory: "{{ (ansible_memtotal_mb/2) | int }}"
+
+# From env vars
+#minimum_master_node: 2
+
+### JVM vars
+# jvm_heap_max: 2
+# jvm_heap_min: 2
+#List of tags for discovering EC2 instances
