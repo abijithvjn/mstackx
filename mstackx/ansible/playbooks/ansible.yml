@@ -1,0 +1,17 @@
+---
+- hosts: bastion
+  gather_facts: no
+  tasks:
+    - name: Wait for SSH to come up
+      wait_for_connection:
+        timeout: 600
+
+- hosts: bastion
+
+  become: yes
+
+  vars_files:
+    - "./../vars/main.yml"
+
+  roles:
+  - ansible

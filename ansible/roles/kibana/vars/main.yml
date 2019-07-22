@@ -1,0 +1,9 @@
+---
+# vars file for kibana
+kibana_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+kibana_apt_url: "deb https://artifacts.elastic.co/packages/6.x/apt stable main"
+package_name: kibana
+kibana_version: 6.5.3
+kibana_user: kibana
+kibana_port: 5601
+es_endpoint: "localhost:9200"

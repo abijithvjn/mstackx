@@ -1,0 +1,8 @@
+server.port: {{ kibana_port }}
+server.host: "0"
+server.maxPayloadBytes: 1000485760
+server.name: kibana
+elasticsearch.url: "{{ es_endpoint }}"
+elasticsearch.pingTimeout: 4500
+elasticsearch.requestTimeout: 300000
+xpack.monitoring.enabled: false

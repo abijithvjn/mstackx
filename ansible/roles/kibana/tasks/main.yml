@@ -1,0 +1,63 @@
+---
+# tasks file for kibana
+- name: Debian - Install apt-transport-https to support https APT downloads
+  become: yes
+  apt:
+    name: apt-transport-https
+    state: present
+  tags: kibana-setup
+
+- name: Import Elastic PGP key
+  apt_key:
+    url: "{{ kibana_apt_key }}"
+    state: present
+  tags: kibana-setup
+
+- name: Add Kibana repository
+  apt_repository:
+    repo: "{{ kibana_apt_url }}"
+    state: present
+    filename: kibana-6.x
+  tags: kibana-setup
+
+- name: Ensure Kibana is installed
+  apt:
+    name: '{{ package_name }}={{ kibana_version }}'
+    state: present
+    update_cache: yes
+  tags: kibana-setup
+
+
+
+- name: Copy kibana.yml config file to /etc/kibana/kibana.yml
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+    mode: 0644
+    backup: yes
+    owner: kibana
+    group: root
+  register: kibana_config
+  tags: kibana-config
+
+- name: Reload systemd
+  systemd:
+    daemon-reload: yes
+  tags: [kibana-setup]
+
+- name: ensure kibana is started
+  service:
+    name: kibana
+    state: started
+    enabled: yes
+  tags:
+    - kibana-setup
+    - kibana-config
+
+- name: restart kibana
+  service:
+    name: kibana
+    state: restarted
+  when: kibana_config is changed
+  tags:
+    - kibana-config
