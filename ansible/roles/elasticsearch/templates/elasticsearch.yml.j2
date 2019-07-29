@@ -1,4 +1,4 @@
-cluster.name: {{ env }}-{{ es_cluster_name }}
+cluster.name: {{ es_cluster_name }}
 discovery.zen.minimum_master_nodes: {{ minimum_master_node | default('1') }}
 http.port: {{ es_port }}
 network.host: 0.0.0.0
