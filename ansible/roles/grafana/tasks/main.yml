@@ -1,0 +1,74 @@
+---
+- name: Add GPG key
+  apt_key:
+    url: "https://packages.grafana.com/gpg.key"
+    state: "present"
+  tags:
+    - grafana-setup
+
+- name: Add grafana repo
+  template:
+    src: grafana.list.j2
+    dest: "/etc/apt/sources.list.d/grafana.list"
+  tags:
+    - grafana-setup
+
+- name: Remove any dpkg locks
+  command: rm -rf /var/lib/dpkg/lock*
+
+- name: Wait for automatic system updates to complete
+  shell: while pgrep unattended; do sleep 10; done;
+
+- name: Install Grafana
+  apt:
+    name: "grafana={{ grafana_version }}"
+    state: "present"
+    update_cache: yes
+  tags:
+    - grafana-setup
+
+- name: Copy grafana.ini file
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  register: grafana_config
+  tags:
+    - grafana-config
+
+- name: Ensure service is running
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+  tags:
+    - grafana-setup
+
+- name: Restart grafana
+  service:
+    name: grafana-server
+    state: restarted
+  when: grafana_config is changed
+  tags:
+    - grafana-config
+
+- name: "Wait for Grafana to come up"
+  uri:
+    url: "http://127.0.0.1:3000/login"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 10
+  delay: 15
+  tags:
+    - grafana-setup
+    - grafana-config
+
+- name: Add datasources for grafana
+  include: datasource.yml
+  tags:
+    - grafana-config
+
+- name: Add dashboards for grafana
+  include: dashboards.yml
+  tags:
+    - grafana-dashboard
