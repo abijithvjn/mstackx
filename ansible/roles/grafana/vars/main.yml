@@ -1,0 +1,5 @@
+---
+grafana_version: "6.0.0"
+
+grafana_dashboards:
+  - 'kubernetes'
