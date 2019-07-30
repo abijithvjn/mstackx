@@ -87,6 +87,5 @@
 
 - name: Reload Prometheus
   command: curl -s -XPOST 'http://localhost:9090/-/reload'
-  when: prometheus_template is changed or alert_rules is changed 
   tags:
     - prometheus-config
