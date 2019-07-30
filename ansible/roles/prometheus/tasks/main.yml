@@ -1,0 +1,93 @@
+---
+- name: Create directories for prometheus
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ prometheus_base_path }}"
+    - "{{ prometheus_base_path }}/configs"
+    - "{{ prometheus_base_path }}/data"
+    - "{{ prometheus_base_path }}/downloads"
+  tags:
+    - prometheus-setup
+
+- name: Download prometheus binaries
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "{{ prometheus_base_path }}/downloads"
+    mode: 755
+  register: binary_download
+  tags:
+    - prometheus-setup
+
+- name: Extract prometheus binaries
+  unarchive:
+    src: "{{ prometheus_base_path }}/downloads/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "{{ prometheus_base_path }}/downloads"
+    remote_src: yes
+  when: binary_download is changed
+  register: prometheus_untar
+  tags:
+    - prometheus-setup
+
+- name: move prometheus libraries
+  shell: |
+    mv {{ prometheus_base_path }}/downloads/prometheus-{{ prometheus_version }}.linux-amd64/console* {{ prometheus_base_path }}/configs/
+  when: prometheus_untar is changed
+  tags:
+    - prometheus-setup
+
+- name: Copy prometheus binaries
+  copy:
+    remote_src: true
+    src: "{{ prometheus_base_path }}/downloads/prometheus-{{ prometheus_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - prometheus
+    - promtool
+  tags:
+    - prometheus-setup
+
+- name: Create prometheus template
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus_base_path }}/configs/prometheus.yml"
+  register: prometheus_template
+  when: account != "mf"
+  tags:
+    - prometheus-config
+
+
+- name: Create prometheus service file
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+  register: prometheus_service_file
+  tags:
+    - prometheus-setup
+
+- name: Reload daemon
+  command: systemctl daemon-reload
+  when: prometheus_service_file is changed
+  tags:
+    - prometheus-setup
+
+- name: Ensure prometheus service is running
+  service:
+    name: prometheus
+    enabled: yes
+    state: started
+  tags:
+    - prometheus-setup
+
+- name: Reload Prometheus
+  command: curl -s -XPOST 'http://localhost:9090/-/reload'
+  when: prometheus_template is changed or alert_rules is changed 
+  tags:
+    - prometheus-config

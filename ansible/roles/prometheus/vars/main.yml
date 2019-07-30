@@ -1,0 +1,15 @@
+---
+
+prometheus_version: "2.7.1"
+prometheus_base_path: "/data/prometheus"
+
+
+kubernetes_cluster_alerts:
+  - {
+      alert_name: "Zero_Pods_Available",
+      expr: "kube_deployment_status_replicas_available{ job='kubernetes-pods' } == 0",
+      duration: "15s",
+      severity: "critical",
+      description: "{% raw %}{{ $labels.deployment }}{% endraw %} in namespace {% raw %}{{ $labels.exported_namespace }}{% endraw %} has zero available pods.",
+      team: "devops"
+    }

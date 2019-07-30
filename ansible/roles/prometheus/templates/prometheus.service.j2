@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/local/bin/prometheus --config.file=/data/prometheus/configs/prometheus.yml --web.enable-lifecycle --storage.tsdb.path=/data/prometheus/data --web.console.templates=/data/prometheus/configs/consoles --web.console.libraries=/data/prometheus/configs/console_libraries --storage.tsdb.retention=10d
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

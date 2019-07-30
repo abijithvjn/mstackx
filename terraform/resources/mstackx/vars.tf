@@ -22,7 +22,7 @@ variable "instance_type" {
         jenkins        = "t2.micro"
         kube-master    = "t2.medium"
         kube-node      = "t2.medium"
-
+        prometheus     = "t2.micro"
   }
 
 }

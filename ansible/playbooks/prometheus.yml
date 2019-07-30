@@ -1,0 +1,16 @@
+---
+- hosts: prometheus
+  gather_facts: no
+  tasks:
+    - name: Wait for SSH to come up
+      wait_for_connection:
+        timeout: 300
+
+
+  become: yes
+
+  vars_files:
+    - "./../vars/{{ account }}/{{ env }}/main.yml"
+
+  roles:
+  - prometheus
