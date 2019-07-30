@@ -10,7 +10,7 @@
   become: yes
 
   vars_files:
-    - "./../vars/{{ account }}/{{ env }}/main.yml"
+    - "./../vars/main.yml"
 
   roles:
   - prometheus
