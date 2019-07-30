@@ -10,13 +10,13 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - "{{ ansible_default_ipv4.address }}:9093"
+      - "localhost:9093"
 
 scrape_configs:
 
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['{{ansible_default_ipv4.address}}:9090']
+      - targets: ['localhost:9090']
 
 
 
@@ -33,4 +33,4 @@ scrape_configs:
         - '{job="kubernetes-cadvisor"}'
     static_configs:
       - targets:
-        - "{{ kubernetes_prometheus_url }}"
+        - "localhost"
