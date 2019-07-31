@@ -9,7 +9,7 @@
     - name: copy config from matches_filter
       fetch:
         src: /etc/kubernetes/admin.conf
-        dest: /tmp/kubeconfig.conf
+        dest: /root/kubeconfig.conf
         flat: yes
 - hosts: bastion,jenkins_node
   become: yes
@@ -23,7 +23,7 @@
   tasks:
     - name: copy config to bastion
       copy:
-        src: /tmp/kubeconfig.conf
+        src: /root/kubeconfig.conf
         dest: /root/.kube/config
         owner: root
         group: root
