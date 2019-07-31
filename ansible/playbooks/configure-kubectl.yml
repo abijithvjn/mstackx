@@ -33,3 +33,5 @@
         url: {{kubectl_url}}
         dest: /usr/local/bin/kubectl
         mode: '0755'
+  roles:
+  - helm
