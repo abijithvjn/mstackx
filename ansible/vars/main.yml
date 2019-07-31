@@ -5,3 +5,4 @@ jenkins_pkg_url: https://pkg.jenkins.io/debian/binary
 jenkins_init_file: /etc/default/jenkins
 jenkins_http_port_param: HTTP_PORT
 jenkins_java_options_env_var: JAVA_ARGS
+kubectl_url: https://storage.googleapis.com/kubernetes-release/release/v1.14.0/bin/linux/amd64/kubectl
