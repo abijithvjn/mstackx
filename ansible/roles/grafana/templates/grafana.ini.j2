@@ -128,10 +128,10 @@ log_queries =
 
 #################################### Google Auth ##########################
 [auth.google]
-enabled = true
+enabled = false
 allow_sign_up = true
-client_id = {{ google_client_id }}
-client_secret = {{ google_client_secret }}
+client_id = client
+client_secret = secret
 scopes = https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
 auth_url = https://accounts.google.com/o/oauth2/auth
 token_url = https://accounts.google.com/o/oauth2/token

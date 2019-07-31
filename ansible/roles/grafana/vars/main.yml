@@ -1,5 +1,5 @@
 ---
 grafana_version: "6.0.0"
-
+grafana_url: "grafana.mstackx.com"
 grafana_dashboards:
   - 'kubernetes'

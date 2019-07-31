@@ -10,6 +10,6 @@
     headers:
       Content-Type: "application/json"
       Accept: "application/json"
-    body: "{{ lookup('file','./../files/dashboards/{{ item }}.json') }}"
+    body: "{{ lookup('file','./../files-dashboards/{{ item }}.json') }}"
     body_format: json
   with_items: "{{ grafana_dashboards }}"

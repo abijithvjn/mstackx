@@ -16,8 +16,6 @@
 - name: Remove any dpkg locks
   command: rm -rf /var/lib/dpkg/lock*
 
-- name: Wait for automatic system updates to complete
-  shell: while pgrep unattended; do sleep 10; done;
 
 - name: Install Grafana
   apt:
