@@ -29,17 +29,9 @@
       run_once: yes
       tags: helm
 
-    - name: "MetalLB role"
-      include_role:
-        name: metallb
-      when: "additional_features.metallb"
-      run_once: yes
-      tags: metallb
-
     - name: "Healthcheck role"
       include_role:
         name: healthcheck
       when: "additional_features.healthcheck"
       run_once: yes
       tags: healthcheck
-
