@@ -5,10 +5,12 @@ metadata:
   labels:
     app: redis
     role: master
+    tier: backend
 spec:
   ports:
-  - port: {{ .Values.redis.port }}
+  - port: {{ .Values.service.redisMasterPort }}
     targetPort: {{ .Values.service.redisMasterPort }}
   selector:
     app: redis
     role: master
+    tier: backend

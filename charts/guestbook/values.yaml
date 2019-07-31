@@ -12,9 +12,9 @@ image:
 # For some dev env (like minikube), you may need to set the type to NodePort
 service:
   type: NodePort
-  httpPort: 30000
-  redisMasterPort: 30001
-  redisSlavePort: 30002
+  httpPort: 80
+  redisMasterPort: 6379
+  redisSlavePort: 6379
 redis:
   port: 6379 
   slaveEnabled: true
