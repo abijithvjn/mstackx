@@ -7,21 +7,23 @@
       wait_for_connection:
         timeout: 600
     - name: copy config from matches_filter
-      fetch:
-        src: /etc/kubernetes/admin.conf
-        dest: /tmp/kubeconfig
-- hosts: bastion,jenkins_node
-  become: yes
-  gather_facts: no
-  tasks:
-    - name: Wait for SSH to come up
-      wait_for_connection:
-        timeout: 600
-  tasks:
-    - name: copy config to bastion
+
       copy:
-        src: /tmp/kubeconfig
-        dest: /root/.kube/config
-        owner: root
-        group: root
-        mode: '0755'
+        remote_src: yes
+        src: /etc/kubernetes/admin.conf
+        dest: /tmp/kubeconfig.conf
+# - hosts: bastion,jenkins_node
+#   become: yes
+#   gather_facts: no
+#   tasks:
+#     - name: Wait for SSH to come up
+#       wait_for_connection:
+#         timeout: 600
+#   tasks:
+#     - name: copy config to bastion
+#       copy:
+#         src: /tmp/kubeconfig
+#         dest: /root/.kube/config
+#         owner: root
+#         group: root
+#         mode: '0755'
