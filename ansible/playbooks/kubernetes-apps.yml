@@ -17,3 +17,26 @@
       command: kubectl create namespace development
     - name: Create monitoring Namespace
       command: kubectl create namespace monitoring
+    - name: Install filebeat
+      command: kubectl apply -f filebeat-kubernetes.yaml
+      args:
+        chdir: ~/mstackx/kubernetes/
+    - name: Install guestbook using helm
+      command: helm install ./guestbook-0.2.1.tgz
+      args:
+        chdir: ~/mstackx/charts/
+    - name: Install prometheus
+      command: helm install stable/prometheus --namespace monitoring --set alertmanager.persistentVolume.enabled=false,server.persistentVolume.enabled=false
+    - name: port forward for prometheus
+      command: kubectl port-forward $(kubectl get pod --selector app=prometheus,component=server -o jsonpath={.items..metadata.name} -n prometheus) -n prometheus 9090:30002
+    - name: Install exporter repo
+      command: helm repo add kubedex https://kubedex.github.io/charts
+    - name: update repository
+      command: helm repo update
+    - name: install exporter
+      command: helm install kubedex/kubedex-exporter
+    - name: Install grafana
+      command: helm install stable/grafana --namespace
+    - name: port forward
+      command: kubectl port-forward $(kubectl get pod --selector app=grafana -o jsonpath={.items..metadata.name} -n grafana) -n grafana 3000:30003
+    

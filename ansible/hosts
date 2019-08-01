@@ -15,4 +15,4 @@ jenkins ansible_host=192.168.3.237 ansible_user=ubuntu
 master
 node
 [prometheus]
-prometheus ansible_python_interpreter='python3' ansible_host=192.168.3.183 ansible_user=ubuntu
+prometheus ansible_host=192.168.3.183 ansible_user=ubuntu
