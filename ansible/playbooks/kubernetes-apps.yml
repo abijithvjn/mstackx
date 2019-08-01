@@ -1,0 +1,19 @@
+---
+- hosts: jenkins_node
+  gather_facts: no
+  tasks:
+    - name: Wait for SSH to come up
+      wait_for_connection:
+        timeout: 600
+
+- hosts: jenkins_node
+
+  become: yes
+
+  vars_files:
+    - "./../vars/main.yml"
+  tasks:
+    - name: Create development namespace
+      command: kubectl create namespace development
+    - name: Create monitoring Namespace
+      command: kubectl create namespace monitoring
