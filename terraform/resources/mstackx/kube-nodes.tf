@@ -1,6 +1,7 @@
 module "kubernetes-node" {
   source = "../../modules/asg/"
   name = "kube-node"
+  app_name = "guestbook"
   ebs_optimized = "false"
   key_pair_name = "${var.key_pair_name}"
   ami           = "${var.ubuntu16_ami}"
@@ -10,4 +11,13 @@ module "kubernetes-node" {
   security_groups = "${aws_security_group.main_internal_sg.id}"
   user_data_template = "kube_nodes"
   asg_subnets   = "${element(module.main_vpc.private_subnet_id,0)},${element(module.main_vpc.private_subnet_id,1)}"
+  tg_port       = "30001"
+  health_check_interval = "10"
+  lb_security_groups = "${aws_security_group.main_public_sg.id}"
+  health_check_matcher = "200,404"
+  health_check_path = "/"
+  lb_vpc_id = "${module.main_vpc.vpc_id}"
+  lb_subnets ="${element(module.main_vpc.private_subnet_id,0)},${element(module.main_vpc.public_subnet_id,1)}"
+  health_check_port ="30001"
+
 }

@@ -36,3 +36,4 @@ spec:
           # value: env
         ports:
         - containerPort: {{ .Values.service.httpPort }}
+          nodePort: 30001

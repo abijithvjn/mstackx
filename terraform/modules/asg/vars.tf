@@ -15,3 +15,12 @@ variable "asg_subnets" {}
 variable "user_data_template" {}
 variable "associate_public_ip_address" { default = "false" }
 variable "iam_instance_profile" { default = "ec2-default-profile"}
+variable "tg_port" {}
+variable  "lb_vpc_id" {}
+variable "health_check_port" {}
+variable "health_check_interval" {}
+variable "health_check_path" {}
+variable "health_check_matcher" {}
+variable "lb_security_groups" {}
+variable "lb_subnets" {}
+variable "app_name" {}

@@ -6,4 +6,4 @@ package_name: kibana
 kibana_version: 6.5.3
 kibana_user: kibana
 kibana_port: 5601
-es_endpoint: "localhost:9200"
+es_endpoint: "http://es.internal:9200"
