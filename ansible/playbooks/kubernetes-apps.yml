@@ -1,12 +1,12 @@
 ---
-- hosts: jenkins_node
+- hosts: bastion
   gather_facts: no
   tasks:
     - name: Wait for SSH to come up
       wait_for_connection:
         timeout: 600
 
-- hosts: jenkins_node
+- hosts: bastion
 
   become: yes
 
@@ -15,28 +15,16 @@
   tasks:
     - name: Create development namespace
       command: kubectl create namespace development
+      ignore_errors: yes
     - name: Create monitoring Namespace
       command: kubectl create namespace monitoring
+      ignore_errors: yes
     - name: Install filebeat
       command: kubectl apply -f filebeat-kubernetes.yaml
       args:
-        chdir: ~/mstackx/kubernetes/
+        chdir: /root/mstackx/kubernetes/
     - name: Install guestbook using helm
       command: helm install ./guestbook-0.2.1.tgz
       args:
-        chdir: ~/mstackx/charts/
-    - name: Install prometheus
-      command: helm install stable/prometheus --namespace monitoring --set alertmanager.persistentVolume.enabled=false,server.persistentVolume.enabled=false
-    - name: port forward for prometheus
-      command: kubectl port-forward $(kubectl get pod --selector app=prometheus,component=server -o jsonpath={.items..metadata.name} -n prometheus) -n prometheus 9090:30002
-    - name: Install exporter repo
-      command: helm repo add kubedex https://kubedex.github.io/charts
-    - name: update repository
-      command: helm repo update
-    - name: install exporter
-      command: helm install kubedex/kubedex-exporter
-    - name: Install grafana
-      command: helm install stable/grafana --namespace
-    - name: port forward
-      command: kubectl port-forward $(kubectl get pod --selector app=grafana -o jsonpath={.items..metadata.name} -n grafana) -n grafana 3000:30003
+        chdir: /root/mstackx/charts/
     
