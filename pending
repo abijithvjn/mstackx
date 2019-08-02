@@ -1,5 +1,3 @@
 deployment bluegreen
-prometheus exporter in monitoring Namespace
-  grafana dashboards
   wrap up script
   readme

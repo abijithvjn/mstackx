@@ -6,7 +6,12 @@
 - name: Update apt respository
   apt:
     update_cache=yes
+  ignore_errors: yes
 - name: Install Ansible packages
   apt:
     name: ansible
+    state: present
+- name: Install Ansible packages
+  apt:
+    name: git
     state: present

@@ -1,0 +1,59 @@
+---
+- name: Wrapup ansible
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  - name: terraform init for vpc
+    command: terraform init
+    ignore_errors: yes
+    args:
+      chdir: ./../../terraform/resources/vpc/
+  - name: create resources
+    command: terraform apply -lock=false -auto-approve
+    ignore_errors: yes
+    args:
+      chdir: ./../../terraform/resources/vpc/
+  - name: terraform init for all resources
+    command: terraform init
+    ignore_errors: yes
+  - name: Spawn resources
+    command: terraform apply -lock=false -auto-approve
+    ignore_errors: yes
+    args:
+      chdir: ./../../terraform/resources/mstackx/
+  - name: pause for a  minutes
+    pause:
+      minutes: 1
+  - name: Configure bastion host
+    command: ansible-playbook playbooks/bastion.yml
+- name: Now configuring everything else :D
+  hosts: bastion
+  become: yes
+
+  vars_files:
+    - "./../vars/main.yml"
+  tasks:
+    - name: Configure jenkins
+      command: ansible-playbook playbooks/jenkins.yml
+      args:
+        chdir: /root/mstackx/ansible
+    - name: Configure elasticsearch
+      command: ansible-playbook playbooks/elasticsearch.yml
+      args:
+        chdir: /root/mstackx/ansible
+    - name: Configure kibana
+      command: ansible-playbook playbooks/kibana.yml
+      args:
+        chdir: /root/mstackx/ansible
+    - name: Configure kubernetes
+      command: ansible-playbook playbooks/site.yml
+      args:
+        chdir: /root/mstackx/ansible
+    - name: Configure kubectl
+      command: ansible-playbook playbooks/configure-kubectl.yml
+      args:
+        chdir: /root/mstackx/ansible
+    - name: Configure kubernetes-apps
+      command: ansible-playbook playbooks/kubernetes-apps.yml
+      args:
+        chdir: /root/mstackx/ansible
