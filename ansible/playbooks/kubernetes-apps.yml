@@ -27,4 +27,13 @@
       command: helm install ./guestbook-0.2.1.tgz
       args:
         chdir: /root/mstackx/charts/
-    
+    - name: Install prometheus
+      command: helm install stable/prometheus --namespace monitoring --name prometheus
+    - name: Apply grafana ConfigMap
+      command: kubectl apply -f /root/mstackx/kubernetes/grafana-configmap.yaml
+    - name: Install grafana
+      command: helm install stable/grafana -f /root/mstackx/charts/grafana/values.yml --namespace monitoring --name grafana
+    - name: Get grafana password
+      command: kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+      register: grafana_password
+    - - debug: msg="{{ grafana_password.stdout}}"
