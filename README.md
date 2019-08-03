@@ -4,8 +4,12 @@ Create aws account
       git clone https://github.com/abijithvjn/mstack.git
 
 Create one key named "mstackx" and keep it in ansible directory
+
 Create bucket to keep terraform state. 
-Replace the bucket in terraform "main.tf" file in resource folder
+
+Replace the bucketname in terraform "main.tf" file in resource folder 
+
+Then a commit is required on top of this. <SO NOT REUSABLE>
 
       cd <repo-home>/ansible
       ansible-playbook playbook/local.yml
