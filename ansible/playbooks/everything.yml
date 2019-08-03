@@ -21,6 +21,10 @@
       command: ansible-playbook playbooks/site.yml
       args:
         chdir: /root/mstackx/ansible
+    - name: Configure kubernetes
+      command: ansible-playbook playbooks/site.yml
+      args:
+        chdir: /root/mstackx/ansible    
     - name: Configure kubectl
       command: ansible-playbook playbooks/configure-kubectl.yml
       args:
