@@ -9,7 +9,7 @@ Create bucket to keep terraform state.
 
 Replace the bucketname in terraform "main.tf" file in resource folder 
 
-Then a commit is required on top of this. <SO NOT REUSABLE>
+Then a commit is required on top of this. ===SO THIS IS NOT REUSABLE BEFORE COMMIT===
 
       cd <repo-home>/ansible
       ansible-playbook playbook/local.yml
