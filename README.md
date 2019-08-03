@@ -8,11 +8,16 @@ Create bucket to keep terraform state.
 Replace the bucket in terraform "main.tf" file in resource folder
 
 cd <repo-home>/ansible
-ansible-playbook playbook/local.yml.  
+ansible-playbook playbook/local.yml
+      
+      
+      
       This will create all the aws resources and clone the repository to bastion host + install ansible in bastion host
  
  
 ansible-playbook playbook/everything.yml
+
+
       Configure Jenkins
       Configure Elasticsearch and Kibana
       COnfigure Install kubernetes cluster
