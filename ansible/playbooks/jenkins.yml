@@ -4,7 +4,7 @@
   tasks:
     - name: Wait for SSH to come up
       wait_for_connection:
-        timeout: 600
+        timeout: 20
 
 - hosts: jenkins_node
 

@@ -1,8 +1,13 @@
+- name: Create tmp 
+  file:
+    path: /tmp/
+    state: directory
+    mode: '0777'
 - name: Install Java
   apt:
     name: "{{ item }}"
     state: present
-    update_cache: true
+    update_cache: yes
     force_apt_get: true
   retries: 3
   with_items: "{{ java_packages }}"
