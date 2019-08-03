@@ -23,6 +23,6 @@
         path: /root/mstackx/ansible/mstackx.pem
         owner: root
         group: root
-        mode: '0755'
+        mode: '0600'
   roles:
   - ansible
